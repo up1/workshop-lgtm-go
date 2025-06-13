@@ -5,3 +5,37 @@
   * Centralized log
 * Go and [Gin web framework](https://gin-gonic.com/)
 * Docker compose
+
+
+## Install Loki logging plugin in Docker
+```
+$docker plugin install grafana/loki-docker-driver:3.3.2-arm64 --alias loki --grant-all-permissions
+$docker plugin ls
+ID             NAME          DESCRIPTION           ENABLED
+2f1dbe207d07   loki:latest   Loki Logging Driver   true
+```
+
+## Build and run LGTM stack
+```
+$docker compose up -d prometheus
+$docker compose up -d loki
+$docker compose up -d tempo
+$docker compose up -d grafana
+```
+
+List of URLs
+* Grafana :: http://localhost:3000
+* Prometheus :: http://localhost:9090
+
+## Build order service
+* Go + Gin
+
+```
+$docker compose build order
+$docker compose up -d order
+```
+
+List of URLs
+* http://localhost:8080/ping
+* http://localhost:8080/metrics
+
