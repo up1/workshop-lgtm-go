@@ -29,7 +29,11 @@ List of URLs
 
 ## Build order service
 * Go + Gin
-
+  * Metric with [go-gin-prometheus](https://github.com/zsais/go-gin-prometheus)
+  * Loggin with [sloggin](https://github.com/samber/slog-gin)
+  * [OpenTelemetry with go](https://opentelemetry.io/docs/languages/go/)
+    * https://github.com/open-telemetry/opentelemetry-go-contrib
+    
 ```
 $docker compose build order
 $docker compose up -d order
