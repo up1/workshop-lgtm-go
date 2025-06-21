@@ -21,7 +21,7 @@ exporters:
     tls:
       insecure: true
   prometheus:
-    endpoint: 0.0.0.0:9090
+    endpoint: 0.0.0.0:1234
     namespace: demo01
   debug:
 

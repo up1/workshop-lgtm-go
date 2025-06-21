@@ -24,6 +24,7 @@ Go to Jarger UI
 * http://localhost:9000
 
 ## Install Otel Collector
+* [Prometheus exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/prometheusexporter)
 ```
 $docker compose up -d otel-collector
 $docker compose ps
