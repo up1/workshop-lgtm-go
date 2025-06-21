@@ -3,3 +3,48 @@
 * [Otel collector](https://opentelemetry.io/docs/collector/)
   * The OpenTelemetry Collector offers a vendor-agnostic implementation of how to receive process and export telemetry data.
 * LGTM Stack
+
+
+## Tracing with Jaeger
+```
+$docker compose up -d jaeger
+$docker compose ps
+```
+
+Go to Jarger UI
+* http://localhost:16686/search
+
+## Metric with Prometheus
+```
+$docker compose up -d prometheus
+$docker compose ps
+```
+
+Go to Jarger UI
+* http://localhost:9000
+
+## Install Otel Collector
+```
+$docker compose up -d otel-collector
+$docker compose ps
+```
+
+## Start demo for tracing
+* Go + gin
+* Redis
+  * https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/redisreceiver/documentation.md
+
+### Start Redis server
+```
+$docker compose up -d redis
+$docker compose ps
+```
+
+### Build and run demo
+```
+$docker compose build demo_tracing
+$docker compose up -d demo_tracing
+$docker compose ps
+```
+List of URLs
+* http://localhost:8080/

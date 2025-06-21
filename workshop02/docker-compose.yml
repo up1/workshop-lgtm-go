@@ -1,0 +1,42 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.128.0
+    command: ["--config=/etc/otel-collector.yaml"]
+    volumes:
+      - ./configs/otel-collector.yaml:/etc/otel-collector.yaml
+    ports:
+      - 4317:4317
+      - 4318:4318
+
+  prometheus:
+    image: prom/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-otlp-receiver # Enables the OTLP receiver
+    volumes:
+      - ./configs/prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.60
+    ports:
+      - 16686:16686
+
+  redis:
+    image: redis:8
+    ports:
+      - "6379:6379"
+
+  demo_tracing:
+    image: demo_tracing:1.0
+    build:
+      context: ./demo_tracing
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_SERVICE_NAME=demo_tracing
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - REDIS_SERVER=redis:6379
+      - ENABLE_OTEL=true
