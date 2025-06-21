@@ -65,8 +65,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	meter := otel.Meter("demo_meter")
 	commonAttrs := []attribute.KeyValue{
-		attribute.String("key1", "chocolate"),
-		attribute.String("key2", "raspberry"),
+		attribute.String("key1", "value1"),
+		attribute.String("key2", "value2"),
 	}
 	// request_count_total
 	requestCount, err := meter.Int64Counter("request_count_total")
