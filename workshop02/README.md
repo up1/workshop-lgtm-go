@@ -4,6 +4,11 @@
   * The OpenTelemetry Collector offers a vendor-agnostic implementation of how to receive process and export telemetry data.
 * LGTM Stack
 
+### Start Redis server
+```
+$docker compose up -d redis
+$docker compose ps
+```
 
 ## Tracing with Jaeger
 ```
@@ -35,11 +40,6 @@ $docker compose ps
 * Redis
   * https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/redisreceiver/documentation.md
 
-### Start Redis server
-```
-$docker compose up -d redis
-$docker compose ps
-```
 
 ### Build and run demo
 ```
