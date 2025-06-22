@@ -2,9 +2,15 @@
 * API with Go + Gin
 * MongoDB
 
+## Start MongoDB
+```
+$docker compose up -d mongo
+$docker compose ps
+```
 
 ## Develop REST API with Go + Gin
-* Tracing
+* Use go-mongo-driver v2
+* Tracing with Gin and MongoDB
   * [Instrumentation with Gin](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/main/instrumentation)
 
 

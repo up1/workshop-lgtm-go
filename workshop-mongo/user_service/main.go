@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"demo/api"
+	"demo/db"
 	"log"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel"
@@ -18,11 +20,22 @@ import (
 func main() {
 	initTracing()
 
+	// Connect to MongoDB
+	client, err := db.Connect()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	userService := &api.UserService{
+		Client: client,
+	}
+
 	r := gin.New()
 	r.Use(otelgin.Middleware("my-server"))
 	r.GET("/users/:id", func(c *gin.Context) {
 		id := c.Param("id")
-		name := api.GetUser(c.Request.Context(), id)
+		num, _ := strconv.Atoi(id)
+		name := userService.GetUser(c.Request.Context(), num)
 		c.JSON(200, gin.H{
 			"id":   id,
 			"user": name,
