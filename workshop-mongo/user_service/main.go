@@ -9,16 +9,19 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/trace"
 
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
+	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
 )
 
 func main() {
 	initTracing()
+	initMeter()
 
 	// Connect to MongoDB
 	client, err := db.Connect()
@@ -64,4 +67,16 @@ func initTracing() {
 		propagation.TraceContext{},
 		propagation.Baggage{},
 	))
+}
+
+func initMeter() {
+	metricExporter, err := otlpmetrichttp.New(context.Background())
+	if err != nil {
+		panic(err)
+	}
+
+	meterProvider := sdkmetric.NewMeterProvider(
+		sdkmetric.WithReader(sdkmetric.NewPeriodicReader(metricExporter)),
+	)
+	otel.SetMeterProvider(meterProvider)
 }
