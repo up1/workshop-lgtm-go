@@ -51,3 +51,6 @@ Go to Prometheus UI
 Call APIs again
 * http://localhost:8080/users/123
 * http://localhost:8080/users/1
+
+## Resources
+* [Otel receiver :: MongoDB ](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/mongodbreceiver)
