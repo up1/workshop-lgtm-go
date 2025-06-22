@@ -15,7 +15,9 @@ services:
       - "8080:8080"
     environment:
       - OTEL_SERVICE_NAME=user_service
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4318/v1/traces
+      - OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://otel-collector:4318/v1/metrics
+      - OTEL_EXPORTER_OTLP_LOGS_ENDPOINT=http://otel-collector:4317
       # interval time OTLP endpoint for metrics
       - OTEL_METRIC_EXPORT_INTERVAL=1000
       - MONGO_URI=mongodb://mongo:27017/test?connect=direct

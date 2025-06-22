@@ -60,3 +60,6 @@ Call APIs again
 ## Resources
 * [Otel receiver :: MongoDB ](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/mongodbreceiver)
 * [Otel slog](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/main/bridges/otelslog)
+* [OpenTelemetry logs](https://opentelemetry.io/docs/concepts/signals/logs/)
+  * Console exporter
+  * HTTP and gRPC are not working
