@@ -52,5 +52,11 @@ Call APIs again
 * http://localhost:8080/users/123
 * http://localhost:8080/users/1
 
+## Example with slog
+```
+{"Timestamp":"2025-06-22T17:49:17.803797885Z","ObservedTimestamp":"2025-06-22T17:49:17.803806135Z","Severity":9,"SeverityText":"INFO","Body":{"Type":"String","Value":"GetUser called"},"Attributes":[{"Key":"id","Value":{"Type":"Int64","Value":123}}],"TraceID":"ee60a7da339c1c1b2b43027909b054e0","SpanID":"b97b9d9de709ea13","TraceFlags":"01","Resource":[{"Key":"service.name","Value":{"Type":"STRING","Value":"user_service"}},{"Key":"telemetry.sdk.language","Value":{"Type":"STRING","Value":"go"}},{"Key":"telemetry.sdk.name","Value":{"Type":"STRING","Value":"opentelemetry"}},{"Key":"telemetry.sdk.version","Value":{"Type":"STRING","Value":"1.36.0"}}],"Scope":{"Name":"gin-server","Version":"","SchemaURL":"","Attributes":{}},"DroppedAttributes":0}
+```
+
 ## Resources
 * [Otel receiver :: MongoDB ](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/mongodbreceiver)
+* [Otel slog](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/main/bridges/otelslog)

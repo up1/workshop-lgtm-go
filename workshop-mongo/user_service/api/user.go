@@ -6,6 +6,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.opentelemetry.io/contrib/bridges/otelslog"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/metric"
@@ -19,11 +20,14 @@ type User struct {
 	Email string `json:"email"`
 }
 
+var logger = otelslog.NewLogger("gin-server")
+
 type UserService struct {
 	Client *mongo.Client
 }
 
 func (us *UserService) GetUser(ctx context.Context, id int) string {
+	logger.InfoContext(ctx, "GetUser called", "id", id)
 	_, span := tracer.Start(ctx, "GetUser")
 	defer span.End()
 
