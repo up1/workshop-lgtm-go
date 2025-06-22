@@ -16,7 +16,7 @@ $docker compose up -d jaeger
 $docker compose ps
 ```
 
-Go to Jarger UI
+Go to Jaeger UI
 * http://localhost:16686/search
 
 ## Metric with Prometheus
@@ -25,8 +25,8 @@ $docker compose up -d prometheus
 $docker compose ps
 ```
 
-Go to Jarger UI
-* http://localhost:9000
+Go to Prometheus UI
+* http://localhost:9090
 
 ## Install Otel Collector
 * [Prometheus exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/prometheusexporter)
