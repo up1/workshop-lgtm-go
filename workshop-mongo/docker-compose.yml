@@ -1,0 +1,16 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  
+  user_service:
+    image: user_service:1.0
+    build:
+      context: ./user_service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_SERVICE_NAME=demo_tracing
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
