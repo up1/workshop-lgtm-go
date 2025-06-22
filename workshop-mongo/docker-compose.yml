@@ -16,6 +16,7 @@ services:
     environment:
       - OTEL_SERVICE_NAME=user_service
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - MONGO_URI=mongodb://mongo:27017/test?connect=direct
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.128.0

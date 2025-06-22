@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"os"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -11,7 +12,7 @@ import (
 func Connect() (*mongo.Client, error) {
 	opts := options.Client()
 	opts.Monitor = otelmongo.NewMonitor()
-	opts.ApplyURI("mongodb://localhost:27017/test?connect=direct")
+	opts.ApplyURI(os.Getenv("MONGO_URI"))
 	client, err := mongo.Connect(opts)
 	if err != nil {
 		return nil, err
