@@ -28,3 +28,15 @@ services:
     ports:
       - 4317:4317
       - 4318:4318
+
+  service_a:
+    build:
+      context: .
+      dockerfile: ./service_a/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_SERVICE_NAME=service_a
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_METRIC_EXPORT_INTERVAL=1000
+      - MONGO_URI=mongodb://mongo:27017/test?connect=direct

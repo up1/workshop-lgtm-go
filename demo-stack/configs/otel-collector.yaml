@@ -5,15 +5,15 @@ receivers:
         endpoint: 0.0.0.0:4317
       http:
         endpoint: 0.0.0.0:4318
-  mongodb:
-    hosts:
-      - endpoint: mongo:27017
-    collection_interval: 5s
-    initial_delay: 5s
-    database: test
-    tls:
-      insecure: true
-      insecure_skip_verify: true
+  # mongodb:
+  #   hosts:
+  #     - endpoint: mongo:27017
+  #   collection_interval: 5s
+  #   initial_delay: 5s
+  #   database: test
+  #   tls:
+  #     insecure: true
+  #     insecure_skip_verify: true
 
 processors:
 extensions:
@@ -37,6 +37,7 @@ service:
       exporters: [otlp, debug]
 
     metrics:
-      receivers: [otlp, mongodb]
+      receivers: [otlp]
+      # receivers: [otlp, mongodb]
       processors: []
       exporters: [prometheus, debug]
