@@ -3,11 +3,14 @@ package main
 import (
 	"net/http"
 	"service_a/user"
+	"shared"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	shared.InitTracing()
+
 	r := gin.New()
 	r.Use(gin.Recovery())
 
