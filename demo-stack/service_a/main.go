@@ -1,6 +1,7 @@
 package main
 
 import (
+	"service_a/gateway"
 	"service_a/user"
 	"shared"
 
@@ -48,6 +49,16 @@ func main() {
 	// Create a new user
 	userHandler := user.UserHandler{Ch: channel}
 	r.POST("/user", userHandler.CreateUser())
+
+	// Get all products from HTTP request
+	r.GET("/call/products", func(c *gin.Context) {
+		ctx := c.Request.Context()
+		products := gateway.CallGetAllProducts(ctx)
+		c.JSON(200, gin.H{
+			"message":  "Products fetched from service_c",
+			"products": products,
+		})
+	})
 
 	r.Run(":8080")
 }

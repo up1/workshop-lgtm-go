@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.10.1
 	github.com/rabbitmq/amqp091-go v1.10.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.61.0
+	go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace v0.61.0
 	go.opentelemetry.io/otel v1.36.1-0.20250618142619-0150494ef969
 	go.opentelemetry.io/otel/trace v1.36.1-0.20250618142619-0150494ef969
 )
