@@ -3,6 +3,9 @@
   * HTTP
   * RabbitMQ
   * MongoDB
+* Golang
+  * Go workspace
+  * Go modules
 
 ## Start RabbitMQ
 ```
