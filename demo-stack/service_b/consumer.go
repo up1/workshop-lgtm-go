@@ -9,6 +9,7 @@ import (
 
 	amqp "github.com/rabbitmq/amqp091-go"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/propagation"
 )
 
@@ -81,7 +82,7 @@ func main() {
 					headers[k] = str
 				}
 			}
-			processData(headers, d.Body)
+			processData(headers, d.Body, q.Name)
 		}
 	}()
 
@@ -89,12 +90,18 @@ func main() {
 	<-forever
 }
 
-func processData(headers map[string]string, body []byte) {
-
+func processData(headers map[string]string, body []byte, queueName string) {
 	// Create a new context with the extracted headers
 	propagator := propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{})
 	parentCtx := propagator.Extract(context.Background(), propagation.MapCarrier(headers))
 	ctx1, span1 := otel.Tracer("service_b").Start(parentCtx, "consume-rabbitmq-message")
+	// Add channel information to the span
+	span1.SetAttributes(
+		attribute.KeyValue{
+			Key:   "queue.name",
+			Value: attribute.StringValue(queueName),
+		},
+	)
 	defer span1.End()
 
 	log.Printf(" [x] Received a message with headers: %v", headers)
