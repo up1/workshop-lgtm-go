@@ -9,6 +9,7 @@ import (
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/trace"
+	mytrace "go.opentelemetry.io/otel/trace"
 )
 
 func InitTracing() {
@@ -31,4 +32,9 @@ func InitTracing() {
 		propagation.TraceContext{},
 		propagation.Baggage{},
 	))
+}
+
+func StartNewSpan(ctx context.Context, serviceName string, operationName string) (context.Context, mytrace.Span) {
+	ctx, span := otel.Tracer(serviceName).Start(ctx, operationName)
+	return ctx, span
 }

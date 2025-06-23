@@ -3,6 +3,7 @@ module shared
 go 1.24.2
 
 require (
+	github.com/rabbitmq/amqp091-go v1.10.0
 	go.opentelemetry.io/otel v1.36.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.36.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.36.0

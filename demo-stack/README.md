@@ -58,3 +58,15 @@ $docker compose build service_b
 $docker compose up -d service_b
 $docker compose ps
 ```
+
+## Build and Run service-c :: Product service
+* Connect to MongoDB
+
+```
+$docker compose build service_c
+$docker compose up -d service_c
+$docker compose ps
+```
+
+List of URLs
+* http://localhost:8083/products
