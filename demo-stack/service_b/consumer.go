@@ -11,12 +11,57 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/propagation"
+	"go.opentelemetry.io/otel/trace"
 )
 
 func failOnError(err error, msg string) {
 	if err != nil {
 		log.Panicf("%s: %s", msg, err)
 	}
+}
+
+// createMessageSpans creates and configures tracing spans for message processing
+func createMessageSpans(parentCtx context.Context, queueName string) (context.Context, []trace.Span) {
+	spans := make([]trace.Span, 2)
+
+	// Create consume span
+	ctx, consumeSpan := otel.Tracer("service_b").Start(parentCtx, "consume-rabbitmq-message")
+	consumeSpan.SetAttributes(
+		attribute.String("queue.name", queueName),
+	)
+	spans[0] = consumeSpan
+
+	// Create processing span
+	_, processSpan := otel.Tracer("service_b").Start(ctx, "process-rabbitmq-message")
+	spans[1] = processSpan
+
+	return ctx, spans
+}
+
+// processMessageData handles the business logic of processing the message
+func processMessageData(body []byte) {
+	log.Printf(" [x] %s", body)
+	log.Printf(" [x] Processing message: %s", body)
+	time.Sleep(2 * time.Second)
+	log.Printf(" [x] Finished processing message: %s", body)
+}
+
+func processData(headers map[string]string, body []byte, queueName string) {
+	// Extract tracing context
+	propagator := propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{})
+	parentCtx := propagator.Extract(context.Background(), propagation.MapCarrier(headers))
+
+	// Create spans
+	_, spans := createMessageSpans(parentCtx, queueName)
+	// Ensure spans are closed
+	for _, span := range spans {
+		defer span.End()
+	}
+
+	log.Printf(" [x] Received a message with headers: %v", headers)
+
+	// Execute business logic
+	processMessageData(body)
 }
 
 func main() {
@@ -75,7 +120,7 @@ func main() {
 
 	go func() {
 		for d := range msgs {
-			// Headers
+			// Extract headers
 			headers := make(map[string]string)
 			for k, v := range d.Headers {
 				if str, ok := v.(string); ok {
@@ -88,32 +133,4 @@ func main() {
 
 	log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
 	<-forever
-}
-
-func processData(headers map[string]string, body []byte, queueName string) {
-	// Create a new context with the extracted headers
-	propagator := propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{})
-	parentCtx := propagator.Extract(context.Background(), propagation.MapCarrier(headers))
-	ctx1, span1 := otel.Tracer("service_b").Start(parentCtx, "consume-rabbitmq-message")
-	// Add channel information to the span
-	span1.SetAttributes(
-		attribute.KeyValue{
-			Key:   "queue.name",
-			Value: attribute.StringValue(queueName),
-		},
-	)
-	defer span1.End()
-
-	log.Printf(" [x] Received a message with headers: %v", headers)
-	log.Printf(" [x] %s", body)
-
-	// Simulate processing
-	log.Printf(" [x] Processing message: %s", body)
-	time.Sleep(2 * time.Second)
-	log.Printf(" [x] Finished processing message: %s", body)
-
-	// Create a new span for processing the message
-	_, span2 := otel.Tracer("service_b").Start(ctx1, "process-rabbitmq-message")
-	defer span2.End()
-
 }
