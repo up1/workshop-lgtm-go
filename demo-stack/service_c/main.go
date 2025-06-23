@@ -24,7 +24,7 @@ func main() {
 
 	// Middleware for OpenTelemetry tracing
 	// This will automatically instrument incoming HTTP requests
-	r.Use(otelgin.Middleware("my-server"))
+	r.Use(otelgin.Middleware("gin-server"))
 
 	r.Use(gin.Recovery())
 

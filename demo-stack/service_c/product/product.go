@@ -49,6 +49,6 @@ func (h *ProductHandler) GetAllProducts() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"products": products})
+		c.JSON(http.StatusOK, products)
 	}
 }
