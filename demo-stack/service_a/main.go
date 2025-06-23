@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"service_a/user"
 	"shared"
 
@@ -10,8 +9,34 @@ import (
 )
 
 func main() {
+	// Initialize OpenTelemetry tracing
 	shared.InitTracing()
 
+	// Connect to RabbitMQ
+	conn, err := shared.ConnectRabbitMQ()
+	if err != nil {
+		panic("Failed to connect to RabbitMQ: " + err.Error())
+	}
+	defer conn.Close()
+	channel, err := conn.Channel()
+	if err != nil {
+		panic("Failed to open a channel: " + err.Error())
+	}
+	defer channel.Close()
+	err = channel.ExchangeDeclare(
+		"users",  // name
+		"fanout", // type
+		true,     // durable
+		false,    // auto-deleted
+		false,    // internal
+		false,    // no-wait
+		nil,      // arguments
+	)
+	if err != nil {
+		panic("Failed to declare exchange: " + err.Error())
+	}
+
+	// Create a new Gin router
 	r := gin.New()
 
 	// Middleware for OpenTelemetry tracing
@@ -21,14 +46,8 @@ func main() {
 	r.Use(gin.Recovery())
 
 	// Create a new user
-	r.POST("/user", func(c *gin.Context) {
-		var newUser = user.CreateUserRequest{}
-		if err := c.ShouldBindJSON(&newUser); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		user.CreateUser(newUser)(c)
-	})
+	userHandler := user.UserHandler{Ch: channel}
+	r.POST("/user", userHandler.CreateUser())
 
 	r.Run(":8080")
 }

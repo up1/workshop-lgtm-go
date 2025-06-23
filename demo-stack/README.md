@@ -18,7 +18,7 @@ Access to managment UI
   * username=guest
   * password=guest
 
-## Build service-a
+## Build and Run service-a
 ```
 $docker compose build service_a
 $docker compose up -d service_a
@@ -49,3 +49,12 @@ $docker compose ps
 Go to Jaeger Server
 * http://localhost:16686/search
 
+
+## Build and Run service-b :: Consumer
+* Receive data from RabitMQ server
+
+```
+$docker compose build service_b
+$docker compose up -d service_b
+$docker compose ps
+```

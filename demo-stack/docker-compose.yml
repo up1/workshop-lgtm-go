@@ -39,4 +39,14 @@ services:
       - OTEL_SERVICE_NAME=service_a
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - OTEL_METRIC_EXPORT_INTERVAL=1000
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
       - MONGO_URI=mongodb://mongo:27017/test?connect=direct
+
+  service_b:
+    build:
+      context: .
+      dockerfile: ./service_b/Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=service_b
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/

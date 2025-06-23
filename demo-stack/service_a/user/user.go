@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rabbitmq/amqp091-go"
 )
 
 type User struct {
@@ -22,8 +23,23 @@ type CreateUserResponse struct {
 	User    User   `json:"user"`
 }
 
-func CreateUser(req CreateUserRequest) func(c *gin.Context) {
+type UserHandler struct {
+	Ch *amqp091.Channel
+}
+
+func (h *UserHandler) CreateUser() func(c *gin.Context) {
 	return func(c *gin.Context) {
+		var req CreateUserRequest
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		// Publish the user creation event to a message queue (rabbitmq)
+		PublishUserCreationEvent(User{
+			Name:  req.Name,
+			Email: req.Email,
+		}, c.Request.Context(), h.Ch)
+
 		c.JSON(http.StatusCreated, CreateUserResponse{
 			Message: "User created successfully",
 			User: User{
