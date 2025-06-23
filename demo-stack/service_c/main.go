@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net/http"
+	"log"
+	"service_c/product"
 	"shared"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
@@ -12,6 +12,12 @@ import (
 func main() {
 	// Initialize OpenTelemetry tracing
 	shared.InitTracing()
+
+	// Connect to MongoDB
+	client, err := shared.Connect()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create a new Gin router
 	r := gin.New()
@@ -23,20 +29,10 @@ func main() {
 	r.Use(gin.Recovery())
 
 	// Get /products endpoint
-	r.GET("/products", func(c *gin.Context) {
-		// Create a new span for this request
-		span1Ctx, span := shared.StartNewSpan(c.Request.Context(), "service-c", "GetProducts")
-		defer span.End()
-
-		// Simulate some work
-		time.Sleep(100 * time.Millisecond)
-
-		// Create a span for the business logic
-		_, businessLogicSpan := shared.StartNewSpan(span1Ctx, "service-c", "BusinessLogic")
-		defer businessLogicSpan.End()
-
-		c.JSON(http.StatusOK, gin.H{"products": []string{"Product 1", "Product 2"}})
-	})
+	h := &product.ProductHandler{
+		Client: client,
+	}
+	r.GET("/products", h.GetAllProducts())
 
 	r.Run(":8080")
 }

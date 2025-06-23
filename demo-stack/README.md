@@ -62,6 +62,13 @@ $docker compose ps
 ## Build and Run service-c :: Product service
 * Connect to MongoDB
 
+### Start MongoDB
+```
+$docker compose up -d mongo
+$docker compose ps
+```
+
+## Start service-c
 ```
 $docker compose build service_c
 $docker compose up -d service_c
