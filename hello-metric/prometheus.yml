@@ -9,3 +9,7 @@ scrape_configs:
         - 'host.docker.internal:8080'
         labels:
           instance: hello
+  - job_name: 'my_mac'
+    static_configs:
+      - targets:
+        - 'host.docker.internal:9100'
