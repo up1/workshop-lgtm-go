@@ -50,8 +50,7 @@ go.opentelemetry.io/otel/metric v1.36.1-0.20250618142619-0150494ef969 h1:Equ44kA
 go.opentelemetry.io/otel/metric v1.36.1-0.20250618142619-0150494ef969/go.mod h1:WeWmkzIRMD4uVv9Is9CQ0QtAXGQKZzQpslgy6otewXg=
 go.opentelemetry.io/otel/sdk v1.36.1-0.20250618142619-0150494ef969 h1:b4UEH7VqA/rhqd3iXzYfwPqGqbc2TaeMrue0j9DgbF8=
 go.opentelemetry.io/otel/sdk v1.36.1-0.20250618142619-0150494ef969/go.mod h1:ONmK++sKMdJ7NMh24aRp8FO2EEd+t92jn5jUR21sumA=
-go.opentelemetry.io/otel/sdk/metric v1.34.0 h1:5CeK9ujjbFVL5c1PhLuStg1wxA7vQv7ce1EK0Gyvahk=
-go.opentelemetry.io/otel/sdk/metric v1.34.0/go.mod h1:jQ/r8Ze28zRKoNRdkjCZxfs6YvBTG1+YIqyFVFYec5w=
+go.opentelemetry.io/otel/sdk/metric v1.36.0 h1:r0ntwwGosWGaa0CrSt8cuNuTcccMXERFwHX4dThiPis=
 go.opentelemetry.io/otel/trace v1.36.1-0.20250618142619-0150494ef969 h1:Yd20Fn35aGlB05Yq2EaHQOrMcs1cUlZs2FiGa+SzeMc=
 go.opentelemetry.io/otel/trace v1.36.1-0.20250618142619-0150494ef969/go.mod h1:gQ+OnDZzrybY4k4seLzPAWNwVBBVlF2szhehOBB/tGA=
 go.opentelemetry.io/proto/otlp v1.6.0 h1:jQjP+AQyTf+Fe7OKj/MfkDrmK4MNVtw2NpXsf9fefDI=
