@@ -40,6 +40,7 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - OTEL_METRIC_EXPORT_INTERVAL=1000
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - PRODUCTS_URL=http://service_c:8080
 
   service_b:
     build:

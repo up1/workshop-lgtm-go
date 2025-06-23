@@ -29,6 +29,7 @@ func InitTracing() {
 	)
 	otel.SetTracerProvider(tracerProvider)
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(
+		// Use from callers to propagate context
 		propagation.TraceContext{},
 		propagation.Baggage{},
 	))
