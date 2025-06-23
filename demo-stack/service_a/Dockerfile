@@ -1,8 +1,8 @@
 FROM golang:1.24.4-alpine3.22 AS builder
 WORKDIR /app
 COPY . .
-RUN cd service_a && go mod tidy
-RUN CGO_ENABLED=0 GOOS=linux go build -o api service_a
+RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build cd service_a && go mod tidy
+RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build CGO_ENABLED=0 GOOS=linux go build -o api service_a
 
 FROM alpine:3.22
 WORKDIR /app
