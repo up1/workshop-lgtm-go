@@ -7,12 +7,20 @@ import (
 
 	"github.com/rabbitmq/amqp091-go"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/propagation"
 )
 
 func PublishUserCreationEvent(user User, ctx context.Context, ch *amqp091.Channel) {
 	// Start a new span for the message publishing operation
 	_, span := otel.Tracer("service-a").Start(ctx, "publish-rabbitmq-message")
+	// Add channel information to the span
+	span.SetAttributes(
+		attribute.KeyValue{
+			Key:   "exchange.name",
+			Value: attribute.StringValue("users"),
+		},
+	)
 	defer span.End()
 
 	// Inject the context into the message headers for tracing
