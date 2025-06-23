@@ -13,38 +13,62 @@ import (
 )
 
 func PublishUserCreationEvent(user User, ctx context.Context, ch *amqp091.Channel) {
-	// Start a new span for the message publishing operation
-	span1 := startNewSpanWithAttributes(ctx, "SerializedUserCreationEvent",
+	// Create spans and get updated context
+	ctx, spans := createUserEventSpans(ctx, user)
+	// Ensure spans are closed
+	for _, span := range spans {
+		defer span.End()
+	}
+
+	// Execute business logic
+	if err := publishUserEvent(ctx, user, ch); err != nil {
+		log.Printf("Failed to publish message: %v", err)
+	} else {
+		log.Println("User creation event published successfully")
+	}
+}
+
+func createUserEventSpans(ctx context.Context, user User) (context.Context, []trace.Span) {
+	spans := make([]trace.Span, 2)
+
+	// Serialize span
+	spans[0] = startNewSpanWithAttributes(ctx, "SerializedUserCreationEvent",
 		attribute.Int("user_id", user.ID),
 		attribute.String("user_name", user.Name),
 		attribute.String("user_email", user.Email),
 		attribute.String("operation", "serialize"),
 	)
-	defer span1.End()
 
-	span2 := startNewSpanWithAttributes(ctx, "PublishUserCreationEvent",
+	// Publish span
+	spans[1] = startNewSpanWithAttributes(ctx, "PublishUserCreationEvent",
 		attribute.String("exchange_name", "users"),
 		attribute.String("operation", "publish"),
 	)
-	defer span2.End()
 
-	// Inject the context into the message headers for tracing
+	return ctx, spans
+}
+
+// publishUserEvent is a pure function that handles the business logic of publishing a user event
+func publishUserEvent(ctx context.Context, user User, ch *amqp091.Channel) error {
+	// Prepare headers for tracing
 	headers := make(map[string]string)
 	propagator := propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{})
 	propagator.Inject(ctx, propagation.MapCarrier(headers))
 
+	// Marshal user data
 	userJSON, err := json.Marshal(user)
 	if err != nil {
-		log.Printf("Failed to marshal user: %v", err)
-		return
+		return err
 	}
+
+	// Convert headers to AMQP table
 	amqpHeaders := make(amqp091.Table)
 	for k, v := range headers {
 		amqpHeaders[k] = v
 	}
 
-	// Publish the user creation event to RabbitMQ
-	err = ch.PublishWithContext(ctx,
+	// Publish the message
+	return ch.PublishWithContext(ctx,
 		"users", // exchange
 		"",      // routing key
 		false,   // mandatory
@@ -54,11 +78,6 @@ func PublishUserCreationEvent(user User, ctx context.Context, ch *amqp091.Channe
 			Body:        userJSON,
 			Headers:     amqpHeaders,
 		})
-	if err != nil {
-		log.Printf("Failed to publish message: %v", err)
-	} else {
-		log.Println("User creation event published successfully")
-	}
 }
 
 func startNewSpan(ctx context.Context, operationName string) trace.Span {
