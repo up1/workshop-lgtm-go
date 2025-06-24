@@ -66,13 +66,18 @@ services:
 # ------ Metric and Alert 
   alertmanager:
     image: prom/alertmanager:latest
+    command:
+      - '--config.file=/etc/alertmanager/config.yaml'
+      - '--storage.path=/alertmanager'
     volumes:
-      - ./configs/alertmanager/config.yaml:/etc/alertmanager/config.yml
+      - ./configs/alertmanager/config.yaml:/etc/alertmanager/config.yaml
     ports:
       - "9093:9093"
-      
+
   prometheus:
     image: prom/prometheus:latest
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
     volumes:
       - ./configs/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
       - ./configs/prometheus/rules:/etc/prometheus/rules

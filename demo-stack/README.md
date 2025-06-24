@@ -77,3 +77,26 @@ $docker compose ps
 
 List of URLs
 * http://localhost:8083/products
+
+## Alert rules
+* [Alert manager](https://prometheus.io/docs/alerting/latest/alertmanager/)
+* Prometheus
+* Grafana
+
+### Start Alert manager server
+```
+$docker compose up -d alertmanager
+$docker compose ps
+```
+
+Alert manager dashboard
+* http://localhost:9093/
+
+### Start Prometheus server
+```
+$docker compose up -d prometheus
+$docker compose ps
+```
+
+Prometheus dashboard
+* http://localhost:9090/
