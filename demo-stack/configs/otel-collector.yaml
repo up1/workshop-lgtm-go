@@ -5,6 +5,11 @@ receivers:
         endpoint: 0.0.0.0:4317
       http:
         endpoint: 0.0.0.0:4318
+  rabbitmq:
+    endpoint: http://rabbitmq:15672
+    username: guest
+    password: guest
+    collection_interval: 10s
   redis:
     endpoint: redis:6379
     collection_interval: 10s
@@ -42,6 +47,6 @@ service:
 
     metrics:
       # receivers: [otlp]
-      receivers: [otlp, mongodb, redis]
+      receivers: [otlp, mongodb, redis, rabbitmq]
       processors: []
       exporters: [prometheus, debug]
