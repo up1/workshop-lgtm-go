@@ -42,6 +42,8 @@ go.opentelemetry.io/contrib/instrumentation/go.mongodb.org/mongo-driver/v2/mongo
 go.opentelemetry.io/contrib/instrumentation/go.mongodb.org/mongo-driver/v2/mongo/otelmongo v0.0.0-20250623072537-48f6936363bf/go.mod h1:b6uCkyWjN3PSqG+hhdUmquSvtPrNf5ZnXv72qdni5Pk=
 go.opentelemetry.io/otel v1.36.1-0.20250618142619-0150494ef969 h1:qPt6tC8poFMq4Y2fTwONRGvjtsQ8Gq2HY3gujZUSA+o=
 go.opentelemetry.io/otel v1.36.1-0.20250618142619-0150494ef969/go.mod h1:9ZHRSbpL6dB9wjsvbGlU8hlCBibGGk6H5AEZSYogN30=
+go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp v1.36.0 h1:gAU726w9J8fwr4qRDqu1GYMNNs4gXrU+Pv20/N1UpB4=
+go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp v1.36.0/go.mod h1:RboSDkp7N292rgu+T0MgVt2qgFGu6qa1RpZDOtpL76w=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.36.0 h1:dNzwXjZKpMpE2JhmO+9HsPl42NIXFIFSUSSs0fiqra0=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.36.0/go.mod h1:90PoxvaEB5n6AOdZvi+yWJQoE95U8Dhhw2bSyRqnTD0=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.36.0 h1:nRVXXvf78e00EwY6Wp0YII8ww2JVWshZ20HfTlE11AM=
@@ -51,6 +53,7 @@ go.opentelemetry.io/otel/metric v1.36.1-0.20250618142619-0150494ef969/go.mod h1:
 go.opentelemetry.io/otel/sdk v1.36.1-0.20250618142619-0150494ef969 h1:b4UEH7VqA/rhqd3iXzYfwPqGqbc2TaeMrue0j9DgbF8=
 go.opentelemetry.io/otel/sdk v1.36.1-0.20250618142619-0150494ef969/go.mod h1:ONmK++sKMdJ7NMh24aRp8FO2EEd+t92jn5jUR21sumA=
 go.opentelemetry.io/otel/sdk/metric v1.36.0 h1:r0ntwwGosWGaa0CrSt8cuNuTcccMXERFwHX4dThiPis=
+go.opentelemetry.io/otel/sdk/metric v1.36.0/go.mod h1:qTNOhFDfKRwX0yXOqJYegL5WRaW376QbB7P4Pb0qva4=
 go.opentelemetry.io/otel/trace v1.36.1-0.20250618142619-0150494ef969 h1:Yd20Fn35aGlB05Yq2EaHQOrMcs1cUlZs2FiGa+SzeMc=
 go.opentelemetry.io/otel/trace v1.36.1-0.20250618142619-0150494ef969/go.mod h1:gQ+OnDZzrybY4k4seLzPAWNwVBBVlF2szhehOBB/tGA=
 go.opentelemetry.io/proto/otlp v1.6.0 h1:jQjP+AQyTf+Fe7OKj/MfkDrmK4MNVtw2NpXsf9fefDI=

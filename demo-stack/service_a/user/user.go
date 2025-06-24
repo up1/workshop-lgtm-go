@@ -1,10 +1,14 @@
 package user
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rabbitmq/amqp091-go"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/metric"
 )
 
 type User struct {
@@ -29,6 +33,9 @@ type UserHandler struct {
 
 func (h *UserHandler) CreateUser() func(c *gin.Context) {
 	return func(c *gin.Context) {
+
+		createMetric(c)
+
 		var req CreateUserRequest
 		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -49,4 +56,18 @@ func (h *UserHandler) CreateUser() func(c *gin.Context) {
 			},
 		})
 	}
+}
+
+func createMetric(c *gin.Context) {
+	meter := otel.Meter("demo_meter")
+	commonAttrs := []attribute.KeyValue{
+		attribute.String("key1", "value1"),
+		attribute.String("key2", "value2"),
+	}
+	// request_count_total
+	requestCount, err := meter.Int64Counter("service_a_request_count_total")
+	if err != nil {
+		log.Fatal(err)
+	}
+	requestCount.Add(c.Request.Context(), 1, metric.WithAttributes(commonAttrs...))
 }

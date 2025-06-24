@@ -12,6 +12,8 @@ import (
 func main() {
 	// Initialize OpenTelemetry tracing
 	shared.InitTracing()
+	// Initialize Prometheus metrics
+	shared.InitMeter()
 
 	// Connect to RabbitMQ
 	conn, err := shared.ConnectRabbitMQ()
