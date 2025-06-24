@@ -1,6 +1,19 @@
 - request:
+    url: /noti
+    method: POST
+
+  response:
+    - status: 200
+      body: >
+        {
+          "message": "Notification received successfully"
+        }
+
+- request:
       url: /call/products
       method: GET
+      headers:
+        Demo: demo
   
   response:
     - status: 200

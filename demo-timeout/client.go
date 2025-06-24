@@ -14,12 +14,14 @@ func main() {
 	// Create a new HTTP client with OpenTelemetry instrumentation
 	client := createClient()
 
-	callService(client, "http://localhost:8882/call/products")
+	callService(client, "http://localhost:8882/user/1")
 }
 
 func callService(client *http.Client, url string) {
 	// Example of making a GET request and add headers
-	resp, err := client.Get(url)
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Add("Demo", "demo")
+	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Failed to call service:", err)
 		callService(client, url) // Retry the service call

@@ -49,6 +49,12 @@ func main() {
 	// Example route
 	router.GET("/ping", func(c *gin.Context) {
 		sloggin.AddCustomAttributes(c, slog.String("ping", "pong"))
+		sloggin.AddCustomAttributes(c, slog.String("ping2", "pong2"))
+
+		// Log a message
+		slog.Info("Received ping request 2", slog.String("method", c.Request.Method), slog.String("path", c.Request.URL.Path))
+		slog.Info("Received ping request 3", slog.String("method", c.Request.Method), slog.String("path", c.Request.URL.Path))
+
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})

@@ -24,7 +24,10 @@ func main() {
 
 	// Define a simple ping endpoint
 	router.GET("/ping", func(c *gin.Context) {
-		logger.Info("Get /ping", "method", c.Request.Method, "path", c.Request.URL.Path, "status", http.StatusOK)
+		logger.Info("Get /ping",
+			"method", c.Request.Method,
+			"path", c.Request.URL.Path,
+			"status", http.StatusOK)
 		callFunc(1)
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
