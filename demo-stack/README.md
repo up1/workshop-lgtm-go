@@ -100,3 +100,16 @@ $docker compose ps
 
 Prometheus dashboard
 * http://localhost:9090/
+  * [Rules health](http://localhost:9090/rules)
+  * [Alerts](http://localhost:9090/alerts)
+
+### Start Grafana server
+```
+$docker compose up -d prografanametheus
+$docker compose ps
+```
+
+Grafana dashboard
+* http://localhost:3000
+  * username=admin
+  * password=admin
