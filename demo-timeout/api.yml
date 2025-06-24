@@ -1,0 +1,22 @@
+- request:
+      url: /call/products
+      method: GET
+  
+  response:
+    - status: 200
+      latency: 5000
+      body: >
+        {
+          "products": [
+            {
+              "id": 1,
+              "name": "Product A",
+              "price": 100.0
+            },
+            {
+              "id": 2,
+              "name": "Product B",
+              "price": 150.0
+            }
+          ]
+        } 
