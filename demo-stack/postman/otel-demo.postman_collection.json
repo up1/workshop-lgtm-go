@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Create a new user",
+			"name": "Service-A-create a new user",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -26,7 +26,16 @@
 			"response": []
 		},
 		{
-			"name": "Get all products",
+			"name": "Service-A-get all products from C",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/call/products"
+			},
+			"response": []
+		},
+		{
+			"name": "Service-C-get all products",
 			"request": {
 				"method": "GET",
 				"header": [],
