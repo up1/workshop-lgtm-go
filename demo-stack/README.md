@@ -105,7 +105,7 @@ Prometheus dashboard
 
 ### Start Grafana server
 ```
-$docker compose up -d prografanametheus
+$docker compose up -d grafana
 $docker compose ps
 ```
 
